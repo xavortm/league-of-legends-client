@@ -59,7 +59,8 @@ jQuery( document ).ready( function ( $ ) {
 		 * it here.
 		 */
 		var _s = {
-			currentSeconds : parseInt( $('.team-red .seconds').text() )
+			currentSeconds : parseInt( $('.team-red .seconds').text() ),
+			endPlayerPick: false
 		};
 
 		/**
@@ -110,7 +111,7 @@ jQuery( document ).ready( function ( $ ) {
 
 			// console.log(messages);
 
-			loadTimer();
+			loadTimer(15);
 			writeComments(messages);
 			commentsForm();
 		}
@@ -177,9 +178,6 @@ jQuery( document ).ready( function ( $ ) {
 		var toggleTags = function(e) {
 			$(this).siblings().removeClass('selected');
 			$(this).addClass('selected');
-			// data-tag='most-played'
-			// data-tag='recent'
-			// data-tag='name'
 
 			var tag = $(e.toElement).text();
 			
@@ -221,7 +219,9 @@ jQuery( document ).ready( function ( $ ) {
 			});
 		}
 
-		var loadTimer = function () {
+		var loadTimer = function (seconds, destroy) {
+			_s.currentSeconds = seconds;
+			
 			var timer = setInterval( function() {
 				if( _s.currentSeconds === 0) {
 					clearInterval(timer);
@@ -230,26 +230,44 @@ jQuery( document ).ready( function ( $ ) {
 				$('.seconds').text(_s.currentSeconds--);
 
 			}, LOAD_DELAY_TIME);
+
+			if (destroy) {
+				clearInterval(timer);
+			}
 		}
 
 		/**
 		 * End the current player turn and move to the next one
 		 */
 		var endPlayerPick = function() {
-			if (0 === $('.champion-panel.current-player .champ-icon').text().length) {
+			if (_s.endPlayerPick) 
+				return;
+
+			if ( $('.champion-panel.current-player .champ-icon').text() )
 				errorMessage("You have not picked a champion!");
-			}
 
 			$('.champion-panel.current-player').removeClass('current-player');
 
-			startAutoPicking();
+			startAutoPicking('blue', 1);
+			_s.endPlayerPick = true;
 		}
 
 		/**
 		 * An predefined sequence of bots picking champions
 		 */
-		var startAutoPicking = function() {
+		var startAutoPicking = function(team, id) {	
+			botSelectChampion( 'Malphite', 1, 'blue' );
+		}
 
+		var botSelectChampion = function(championName, id, team) {
+			_s.currentSeconds = 15;
+			loadTimer(15);
+			$('.team-' + team + ' .team-champions .champion-panel:nth-child(' + id + ')').addClass('current-player');
+			var imgURL = $("img[src$='" + championName + ".png']").attr('src');
+			
+			setTimeout(function() {
+				$('.current-player .champ-icon').append('<img src="' + imgURL + '">');
+			}, 3000);
 		}
 
 		var selectFieldOpen = function(element) {
