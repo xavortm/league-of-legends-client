@@ -796,6 +796,8 @@ body {
             transform: scale(0);
     -webkit-transition: 0.2s;
     transition: 0.2s; }
+    .champions-grid .champ-icon.hidden {
+      display: none; }
     .champions-grid .champ-icon.loaded:active {
       -webkit-transform: scale(0.8);
               transform: scale(0.8); }

@@ -142,9 +142,26 @@ jQuery( document ).ready( function ( $ ) {
 		 * Toggle between "selected" class when picking a champion.
 		 * This will allow to style it from CSS.
 		 */
-		var toggleTags = function () {
+		var toggleTags = function(e) {
 			$(this).siblings().removeClass('selected');
 			$(this).addClass('selected');
+			// data-tag='most-played'
+			// data-tag='recent'
+			// data-tag='name'
+
+			var tag = $(e.toElement).text();
+			
+			$('.champions-grid-overflow .champ-icon').each(function() {
+				if($(this).data('tag') !== tag) {
+					$(this).addClass('hidden')
+				} else {
+					$(this).removeClass('hidden');
+				}
+
+				if(tag === 'All champions') {
+					$(this).removeClass('hidden');
+				}
+			});
 		}
 
 		/**

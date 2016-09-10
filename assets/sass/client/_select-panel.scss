@@ -142,6 +142,10 @@
 		transform: scale(0);
 		transition: 0.2s;
 
+		&.hidden {
+			display: none;
+		}
+
 		&.loaded:active {
 			transform: scale(0.8);
 		}
