@@ -92,26 +92,26 @@ jQuery( document ).ready( function ( $ ) {
 				loadIcons('.team-red .champion-panel', 2000);
 			}, LOAD_DELAY_TIME_CHAMPIONS_PANEL_RED);
 
-			var messages = {
-				"notaReaper": "I like turtles :)",
-				"Mangak8": "y did u ban corki?",
-				"Mangak8": "I will play mid",
-				"FullMetalBr0": "hecarim mid ftw, gona rekt em",
-				"notaReaper": "I like trains :)",
-				"FullMetalBr0": "feed or troll 24/7 bruh",
-				"Extenz": "We are gonna loose this one..",
-				"notaReaper": "I like to smell glue :)",
-				"FullMetalBr0": "reaper shut up retard",
-				"Extenz": "I always get to play with idiots",
-				"FullMetalBr0": "extenz just for you i will feed",
-				"Extenz": "This is not happening right now ...",
-				"Extenz": "Hecarim reported"
-			};
+			var messages = [
+				"notaReaper I like turtles :)",
+				"Mangak8 y did u ban corki?",
+				"Mangak8 I will play mid",
+				"FullMetalBr0 hecarim mid ftw, gona rekt em",
+				"notaReaper I like trains :)",
+				"FullMetalBr0 feed or troll 24/7 bruh",
+				"Extenz We are gonna loose this one..",
+				"notaReaper I like to smell glue :)",
+				"FullMetalBr0 reaper shut up retard",
+				"Extenz I always get to play with idiots",
+				"FullMetalBr0 extenz just for you i will feed",
+				"Extenz This is not happening right now ...",
+				"Extenz Hecarim reported"
+			];
 
 			// console.log(messages);
 
 			loadTimer();
-			// for( var msg in messages ) writeComments(messages, msg, 0);
+			writeComments(messages);
 			commentsForm();
 		}
 
@@ -134,8 +134,40 @@ jQuery( document ).ready( function ( $ ) {
 		/**
 		 * Write some comments in the comment field to show interactivity.
 		 */
-		var writeComments = function( messages, msg, item ) {
-			console.log(messages);
+		var writeComments = function( messages, counter ) {
+			if (undefined == counter) {
+				counter = 0;
+			}
+
+			console.log(counter);
+
+			for(var i = 0; i <= counter; i++ ) {
+				if (undefined == messages[i]) 
+					return;	
+
+				var delay = Math.floor((Math.random() * 500) + 4000);
+				var index = messages[i].indexOf(' ');
+				
+				if (index == -1) {
+					index = messages[i].length;
+				}
+
+				var firstWord = messages[i].substring(0, index);
+				var message = messages[i].substring(index, messages[i].length);
+			}
+
+			var timeout = setTimeout(function() {
+				// Get that message out
+				$('.chat-messages').append('<span class="chat-msg"><strong class="user">' + firstWord + ':</strong> ' + message + '</span>');
+				writeComments(messages, ++counter);
+			}, delay);
+
+			if (counter == messages.length) {
+				clearTimeout(timeout);
+				return;
+			}
+
+			$(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);;
 		}
 
 		/**
@@ -190,14 +222,33 @@ jQuery( document ).ready( function ( $ ) {
 		}
 
 		var loadTimer = function () {
-
 			var timer = setInterval( function() {
 				if( _s.currentSeconds === 0) {
 					clearInterval(timer);
+					endPlayerPick();
 				}
 				$('.seconds').text(_s.currentSeconds--);
 
 			}, LOAD_DELAY_TIME);
+		}
+
+		/**
+		 * End the current player turn and move to the next one
+		 */
+		var endPlayerPick = function() {
+			if (0 === $('.champion-panel.current-player .champ-icon').text().length) {
+				errorMessage("You have not picked a champion!");
+			}
+
+			$('.champion-panel.current-player').removeClass('current-player');
+
+			startAutoPicking();
+		}
+
+		/**
+		 * An predefined sequence of bots picking champions
+		 */
+		var startAutoPicking = function() {
 
 		}
 
@@ -225,7 +276,7 @@ jQuery( document ).ready( function ( $ ) {
 				var inputContent = $('.chatbox-input').val();
 
 				if( inputContent.trim().length > 0 ) {
-					$('.chat-messages').append('<span class="chat-msg"><strong class="user">XavorTM:</strong> ' + inputContent + '</span>');
+					$('.chat-messages').append('<span class="chat-msg"><strong class="user author">XavorTM:</strong> ' + inputContent + '</span>');
 					$('.chatbox-input').val('');
 				}
 
@@ -243,7 +294,11 @@ jQuery( document ).ready( function ( $ ) {
 				$('.chat-messages').append('<span class="chat-msg"><strong class="user">XavorTM:</strong> ' + inputContent + '</span>');
 				$('.chatbox-input').val('');
 			}
+		}
 
+		var errorMessage = function(message) {
+			$('.client-error p').text(message);
+			$('.client-error').addClass('is-visible');
 		}
 
 		/**

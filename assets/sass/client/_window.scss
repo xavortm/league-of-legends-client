@@ -2,6 +2,35 @@ body {
 	background: url(../img/background-img-base.jpg)
 }
 
+.client-error {
+	height: 100vh; width: 100vw;
+	position: fixed; top: 0; left: 0;
+	background: rgba(black,0.8);
+	z-index: 999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: white;
+	backdrop-filter: blur(20px);
+	-webkit-backdrop-filter: blur(20px);
+	opacity: 0;
+	pointer-events: none;
+	transition: 1s;
+
+	&.is-visible {
+		opacity: 1;
+		pointer-events: auto;
+		transition: 1s;
+	}
+
+	.error-wrapper {
+		background: black;
+		border-radius: 10px;
+		border: 2px solid red;
+		padding: 40px;
+	}
+}
+
 // The main window
 .client-window {
 	width: 1280px;
