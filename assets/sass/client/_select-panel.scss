@@ -152,24 +152,8 @@
 			transition: 0.2s;
 		}
 
-		&:after {
-			position: absolute;
-			content: ' ';
-			height: 0;
-			width: 100%;
-			left: 0; right: 0; bottom: 0;
-			margin: auto;
-			background: white;
-			opacity: 0;
-			transition: 0.2s;
-			pointer-events: none;
-		}
-
-		&:hover:after {
-			height: 100%;
-			opacity: 0.1;
-			transition: 0.2s;
-			color: transparent;
+		&:hover {
+			transform: scale(1.1);
 		}
 
 		&.inactive {
@@ -273,7 +257,7 @@
 
 	.masteries {
 		width: 220px;
-		height: 97px;
+		height: 81px;
 		margin-right: 7px;
 	}
 

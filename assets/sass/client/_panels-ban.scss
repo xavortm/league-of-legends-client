@@ -105,8 +105,22 @@
 			display: block;
 			margin-bottom: 3px;
 
+			animation-name: showMessageAnimation;
+			animation-duration: 0.2s;
+
 			.user {
 				color: #4d7d8c;
+			}
+		}
+
+		@keyframes showMessageAnimation {
+			from {
+				opacity: 0;
+				transform: translateX(-100px);
+			}
+			to {
+				opacity: 1;
+				transform : translateX(0);
 			}
 		}
 

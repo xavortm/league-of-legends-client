@@ -169,7 +169,6 @@ figure {
  * Address differences between Firefox and other browsers.
  */
 hr {
-  -moz-box-sizing: content-box;
   box-sizing: content-box;
   height: 0; }
 
@@ -298,8 +297,6 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="search"] {
   -webkit-appearance: textfield;
   /* 1 */
-  -moz-box-sizing: content-box;
-  -webkit-box-sizing: content-box;
   /* 2 */
   box-sizing: content-box; }
 
@@ -378,6 +375,7 @@ h1, h2, h3, h4, h5, h6 {
 .preloader.loaded {
   opacity: 0 !important;
   pointer-events: none;
+  -webkit-transition: 0.5s;
   transition: 0.5s; }
 
 body {
@@ -391,16 +389,23 @@ body {
   background: url(../img/background-img.jpg) no-repeat;
   position: relative;
   padding: 30px;
-  user-select: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
   overflow: hidden;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.5);
   opacity: 0;
+  -webkit-transition: 0.2s;
   transition: 0.2s;
-  transform: translateY(-50px); }
+  -webkit-transform: translateY(-50px);
+          transform: translateY(-50px); }
   .client-window.visible {
     opacity: 1;
+    -webkit-transition: 0.5s;
     transition: 0.5s;
-    transform: translateY(0); }
+    -webkit-transform: translateY(0);
+            transform: translateY(0); }
 
 .top-bar {
   height: 25px;
@@ -414,6 +419,9 @@ body {
   position: absolute;
   bottom: 0;
   width: 100%; }
+
+::-moz-selection {
+  background: black; }
 
 ::selection {
   background: black; }
@@ -501,16 +509,45 @@ body {
     .section-comments .panel-chat .chat-msg {
       font-size: 12px;
       color: white;
-      user-select: text;
+      -webkit-user-select: text;
+         -moz-user-select: text;
+          -ms-user-select: text;
+              user-select: text;
       display: block;
-      margin-bottom: 3px; }
+      margin-bottom: 3px;
+      -webkit-animation-name: showMessageAnimation;
+              animation-name: showMessageAnimation;
+      -webkit-animation-duration: 0.2s;
+              animation-duration: 0.2s; }
       .section-comments .panel-chat .chat-msg .user {
         color: #4d7d8c; }
+
+@-webkit-keyframes showMessageAnimation {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px); }
+  to {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0); } }
+
+@keyframes showMessageAnimation {
+  from {
+    opacity: 0;
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px); }
+  to {
+    opacity: 1;
+    -webkit-transform: translateX(0);
+            transform: translateX(0); } }
     .section-comments .panel-chat .input-area {
       font-size: 12px;
       color: #cca263;
       line-height: 2.161;
       text-shadow: 1.5px 2.598px 5px rgba(0, 0, 0, 0.75);
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex; }
       .section-comments .panel-chat .input-area input[type='button'] {
         border-radius: 3px;
@@ -536,6 +573,8 @@ body {
           outline: none; }
 
 .main-panels {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-top: 25px; }
   .main-panels .team-red:after, .main-panels .champ-select:after, .main-panels .team-blue:after {
@@ -556,7 +595,8 @@ body {
       margin-bottom: 21px; }
 
 .team-blue .champion-panel {
-  transform: translateX(100%); }
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%); }
 
 .team-heading {
   clear: both;
@@ -599,14 +639,20 @@ body {
   border: 1px solid #006184;
   color: #4c8ab0;
   padding: 6px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-bottom: 7px;
-  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+  -webkit-transition: 0.1s;
   transition: 0.1s;
   opacity: 0; }
   .champion-panel.loaded {
-    transform: translateX(0);
-    transition: 0.2s;
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
     opacity: 1; }
   .champion-panel:after {
     clear: both;
@@ -664,6 +710,8 @@ body {
 
 .tab-controllers {
   margin-top: 9px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
   .tab-controllers .message {
     color: white;
@@ -744,36 +792,27 @@ body {
     cursor: pointer;
     position: relative;
     opacity: 0;
-    transform: scale(0);
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    -webkit-transition: 0.2s;
     transition: 0.2s; }
     .champions-grid .champ-icon.loaded:active {
-      transform: scale(0.8); }
+      -webkit-transform: scale(0.8);
+              transform: scale(0.8); }
     .champions-grid .champ-icon.loaded {
       opacity: 1;
-      transform: scale(1);
+      -webkit-transform: scale(1);
+              transform: scale(1);
+      -webkit-transition: 0.2s;
       transition: 0.2s; }
-    .champions-grid .champ-icon:after {
-      position: absolute;
-      content: ' ';
-      height: 0;
-      width: 100%;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      margin: auto;
-      background: white;
-      opacity: 0;
-      transition: 0.2s;
-      pointer-events: none; }
-    .champions-grid .champ-icon:hover:after {
-      height: 100%;
-      opacity: 0.1;
-      transition: 0.2s;
-      color: transparent; }
+    .champions-grid .champ-icon:hover {
+      -webkit-transform: scale(1.1);
+              transform: scale(1.1); }
     .champions-grid .champ-icon.inactive {
       cursor: normal; }
       .champions-grid .champ-icon.inactive:active {
-        transform: scale(1); }
+        -webkit-transform: scale(1);
+                transform: scale(1); }
       .champions-grid .champ-icon.inactive:hover:after {
         opacity: 0; }
       .champions-grid .champ-icon.inactive img {
@@ -825,6 +864,8 @@ body {
         font-size: 11px; }
 
 .controllers-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex; }
   .controllers-wrapper .controller-panel {
     margin-top: 7px;
@@ -835,7 +876,7 @@ body {
     background-color: #08131A; }
   .controllers-wrapper .masteries {
     width: 220px;
-    height: 97px;
+    height: 81px;
     margin-right: 7px; }
   .controllers-wrapper .spells {
     margin-right: 7px; }
@@ -861,14 +902,18 @@ body {
     height: 50px;
     background: url(../img/button-play.png) no-repeat;
     border: none;
+    -webkit-transition: 0.3s;
     transition: 0.3s; }
     .controllers-wrapper .button-play:active, .controllers-wrapper .button-play:focus {
       outline: none; }
     .controllers-wrapper .button-play:hover {
+      -webkit-transition: 0.1s;
       transition: 0.1s;
       box-shadow: 0 0 20px #bb441a; }
     .controllers-wrapper .button-play:active {
-      transform: scale(0.9);
+      -webkit-transform: scale(0.9);
+              transform: scale(0.9);
+      -webkit-transition: 0.1s;
       transition: 0.1s; }
 
 .select-field {
@@ -921,5 +966,3 @@ body {
     position: absolute;
     left: 0;
     top: 17px; }
-
-/*# sourceMappingURL=master.css.map */
